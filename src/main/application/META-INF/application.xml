@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE application PUBLIC
+        "-//Sun Microsystems, Inc.//DTD J2EE Application 1.3//EN"
+        "http://java.sun.com/dtd/application_1_3.dtd">
+
+<application>
+    <display-name>BILGUI</display-name>
+    <module>
+        <web>
+            <web-uri>bil-gui-R2019.4.B0005.HF08-SNAPSHOT.war</web-uri>
+            <context-root>/BILGUI</context-root>
+        </web>
+    </module>
+</application>

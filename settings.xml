@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd" xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <!-- This settings file aims to target all Worldline developers -->
+    <!-- Depending on your location, you may have to change some values -->
+
+    <!-- https://kazan.atosworldline.com should be used to access Kazan -->
+    <!-- Old URL are not recommended. They may be decommissioned anytime -->
+    <!-- This include .priv.atos.fr URL and http scheme -->
+
+    <!-- Proxy for France, adapt when located in another country -->
+    <proxies>
+        <proxy>
+           <username>ww930\A704234</username>
+           <password></password>
+            <host>10.87.140.12</host>
+            <port>84</port>
+            <nonProxyHosts>127.0.0.1|localhost|*.priv.atos.fr</nonProxyHosts>
+        </proxy>
+    </proxies>
+	
+
+
+    <profiles>
+        <profile>
+            <id>kazan</id>
+            <repositories>
+                <repository>
+                    <id>kazan-repo</id>
+                    <name>Kazan repository</name>
+                    <url>https://kazan.atosworldline.com/nexus/content/groups/public/</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>kazan-plugin-repo</id>
+                    <name>Kazan plugins repository</name>
+                    <url>https://kazan.atosworldline.com/nexus/content/groups/public/</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>kazan</activeProfile>
+    </activeProfiles>
+
+    <!-- Few plugins are not honoring repositories and hit Central directly -->
+    <!-- This mirror will redirect all requests to Kazan -->
+    <mirrors>
+        <mirror>
+            <id>kazan_mirror_everything</id>
+            <name>kazan_public</name>
+            <url>https://kazan.atosworldline.com/nexus/content/groups/public/</url>
+            <mirrorOf>*</mirrorOf>
+        </mirror>
+    </mirrors>
+
+    <!-- Disable warning about cookies when using .atosworldline.com URL -->
+    <!-- Comment this section if using .priv.atos.fr URL (not recommended) -->
+    <servers>
+        <server>
+            <id>kazan-repo</id>
+            <configuration>
+                <httpConfiguration>
+                    <all>
+                        <params>
+                            <http.protocol.cookie-policy>ignoreCookies</http.protocol.cookie-policy>
+                        </params>
+                    </all>
+                </httpConfiguration>
+            </configuration>
+        </server>
+        <server>
+            <id>kazan-plugin-repo</id>
+            <configuration>
+                <httpConfiguration>
+                    <all>
+                        <params>
+                            <http.protocol.cookie-policy>ignoreCookies</http.protocol.cookie-policy>
+                        </params>
+                    </all>
+                </httpConfiguration>
+            </configuration>
+        </server>
+        <server>
+            <id>kazan_mirror_everything</id>
+            <configuration>
+                <httpConfiguration>
+                    <all>
+                        <params>
+                            <http.protocol.cookie-policy>ignoreCookies</http.protocol.cookie-policy>
+                        </params>
+                    </all>
+                </httpConfiguration>
+            </configuration>
+        </server>
+    </servers>
+</settings>

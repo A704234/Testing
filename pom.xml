@@ -1,0 +1,144 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.equens.bil</groupId>
+    <artifactId>BILGUI</artifactId>
+    <version>R2019.4.B0005.HF08-SNAPSHOT</version>
+    <packaging>ear</packaging>
+    <name>BILGUI</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <project.release.version>R2019.4.B0005.HF08</project.release.version>
+        <project.development.version>R2019.4.B0005.HF09-SNAPSHOT</project.development.version>
+
+        <maven.scm.version>1.8.1</maven.scm.version>
+
+        <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
+    </properties>
+
+    <scm>
+        <connection>scm:git:ssh://git@gitlab.kazan.priv.atos.fr/ewlpayments20/ewlpayments20-equens-app-gui-ear.git</connection>
+        <developerConnection>scm:git:[push=]ssh://git@gitlab.kazan.priv.atos.fr/ewlpayments20/ewlpayments20-equens-app-gui-ear.git[fetch=]ssh://git@gitlab.kazan.priv.atos.fr/ewlpayments20/ewlpayments20-equens-app-gui-ear.git</developerConnection>
+        <url>https://gitlab.kazan.priv.atos.fr/ewlpayments20/ewlpayments20-equens-app-gui-ear.git</url>
+        <tag>R2019.4.B0003.HF05</tag>
+  </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>kazan-release-repo</id>
+            <name>Kazan Release</name>
+            <url>https://kazan.atosworldline.com/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>kazan-snapshot-repo</id>
+            <name>Kazan Snapshot</name>
+            <url>https://kazan.atosworldline.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.equens.bil</groupId>
+            <artifactId>bil-gui</artifactId>
+            <version>R2019.4.B0005.HF08-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven.release.plugin.version}</version>
+                <configuration>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <remoteTagging>false</remoteTagging>
+                    <suppressCommitBeforeTag>false</suppressCommitBeforeTag>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                    <scmCommentPrefix>[ci skip][maven release]</scmCommentPrefix>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-api</artifactId>
+                        <version>${maven.scm.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-gitexe</artifactId>
+                        <version>${maven.scm.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.4.Final</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.7.7</version>
+				<configuration>
+					<container>
+						<containerId>jboss7x</containerId>
+						<type>local</type>
+					</container>
+					<configuration>
+						<type>runtime</type>
+						<properties>
+							<cargo.hostname>production27</cargo.hostname>
+							<cargo.jboss.management-native.port>19999</cargo.jboss.management-native.port>
+						</properties>
+					</configuration>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.jboss.as</groupId>
+						<artifactId>jboss-as-controller-client</artifactId>
+						<version>7.0.2.Final</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			          <plugin>
+    <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>1.0.0.Final</version>
+            <configuration>
+                    <hostname>${wildfly-hostname}</hostname>
+                    <port>${wildfly-port}</port>
+                    <username>${wildfly-username}</username>
+                    <password>${wildfly-password}</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+             </executions>
+        </plugin>
+        </plugins>
+    </build>
+</project>
